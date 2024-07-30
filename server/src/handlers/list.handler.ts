@@ -26,10 +26,11 @@ class ListHandler extends SocketHandler {
     this.updateLists();
   }
 
-  private createList(name: string): void {
+  private createList({ listName }: { listName: string }): void {
     const lists = this.db.getData();
-    const newList = new List(name);
-    this.db.setData(lists.concat(newList));
+    const newList = new List(listName);
+    const updatedLists = [...lists, newList];
+    this.db.setData(updatedLists);
     this.updateLists();
   }
 }

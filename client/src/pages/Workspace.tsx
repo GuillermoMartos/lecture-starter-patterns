@@ -84,7 +84,11 @@ export const Workspace = () => {
                 />
               ))}
               {provided.placeholder}
-              <ColumnCreator onCreateList={() => {}} />
+              <ColumnCreator
+                onCreateList={(listName) => {
+                  socket.emit(ListEvent.CREATE, { listName });
+                }}
+              />
             </Container>
           )}
         </Droppable>

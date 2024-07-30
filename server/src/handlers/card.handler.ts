@@ -25,11 +25,9 @@ class CardHandler extends SocketHandler {
   }): void {
     const newCard = new Card(cardName, "");
     const lists = this.db.getData();
-
     const updatedLists = lists.map((list) =>
       list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
     );
-
     this.db.setData(updatedLists);
     this.updateLists();
   }
@@ -39,7 +37,6 @@ class CardHandler extends SocketHandler {
     const updatedLists = lists.map((listCards) =>
       listCards.setCards(listCards.cards.filter((card) => card.id !== cardId))
     );
-
     this.db.setData(updatedLists);
     this.updateLists();
   }
@@ -62,7 +59,6 @@ class CardHandler extends SocketHandler {
         })
       );
     });
-
     this.db.setData(updatedLists);
     this.updateLists();
   }
@@ -85,7 +81,6 @@ class CardHandler extends SocketHandler {
         })
       );
     });
-
     this.db.setData(updatedLists);
     this.updateLists();
   }
