@@ -45,7 +45,15 @@ export const CardItem = ({ card, isDragging, provided }: Props) => {
           fontSize="large"
           isBold
         />
-        <Text text={card.description} onChange={() => {}} />
+        <Text
+          text={card.description}
+          onChange={(cardDescription) => {
+            socket.emit(CardEvent.CHANGE_DESCRIPTION, {
+              cardId: card.id,
+              cardDescription,
+            });
+          }}
+        />
         <Footer>
           <DeleteButton
             onClick={() => {
