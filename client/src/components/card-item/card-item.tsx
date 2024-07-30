@@ -34,7 +34,17 @@ export const CardItem = ({ card, isDragging, provided }: Props) => {
       aria-label={card.name}
     >
       <Content>
-        <Title onChange={() => {}} title={card.name} fontSize="large" isBold />
+        <Title
+          onChange={(cardName) => {
+            socket.emit(CardEvent.RENAME, {
+              cardId: card.id,
+              cardName,
+            });
+          }}
+          title={card.name}
+          fontSize="large"
+          isBold
+        />
         <Text text={card.description} onChange={() => {}} />
         <Footer>
           <DeleteButton
