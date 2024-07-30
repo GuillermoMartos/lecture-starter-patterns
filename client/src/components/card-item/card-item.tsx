@@ -1,6 +1,9 @@
 import type { DraggableProvided } from "@hello-pangea/dnd";
+import { useContext } from "react";
+import { CardEvent } from "../../common/enums/card-event.enum";
 
 import { type Card } from "../../common/types/types";
+import { SocketContext } from "../../context/socket";
 import { CopyButton } from "../primitives/copy-button";
 import { DeleteButton } from "../primitives/delete-button";
 import { Splitter } from "../primitives/styled/splitter";
@@ -17,6 +20,8 @@ type Props = {
 };
 
 export const CardItem = ({ card, isDragging, provided }: Props) => {
+  const socket = useContext(SocketContext);
+
   return (
     <Container
       className="card-container"
@@ -32,7 +37,11 @@ export const CardItem = ({ card, isDragging, provided }: Props) => {
         <Title onChange={() => {}} title={card.name} fontSize="large" isBold />
         <Text text={card.description} onChange={() => {}} />
         <Footer>
-          <DeleteButton onClick={() => {}} />
+          <DeleteButton
+            onClick={() => {
+              socket.emit(CardEvent.DELETE, { cardId: card.id });
+            }}
+          />
           <Splitter />
           <CopyButton onClick={() => {}} />
         </Footer>
