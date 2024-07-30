@@ -43,7 +43,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
               aria-label={listName}
               title={listName}
               onChange={(listName) => {
-                socket.emit(ListEvent.UPDATE, { listId, listName });
+                socket.emit(ListEvent.RENAME, { listId, listName });
               }}
               fontSize="large"
               width={200}
