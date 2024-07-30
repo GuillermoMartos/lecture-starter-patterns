@@ -7,4 +7,6 @@ const CardEvent = {
   DUPLICATE: "card:duplicate",
 } as const;
 
-export { CardEvent };
+type CardEventType = (typeof CardEvent)[keyof typeof CardEvent];
+
+export { CardEvent, CardEventType };

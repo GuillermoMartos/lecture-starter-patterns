@@ -7,4 +7,6 @@ const ListEvent = {
   DELETE: "list:delete",
 } as const;
 
-export { ListEvent };
+type ListEventType = (typeof ListEvent)[keyof typeof ListEvent];
+
+export { ListEvent, ListEventType };

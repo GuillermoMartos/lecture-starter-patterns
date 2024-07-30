@@ -32,15 +32,27 @@ class ListHandler extends SocketHandler {
     const lists = this.db.getData();
     const newList = new List(listName);
     const updatedLists = [...lists, newList];
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      ListEvent.CREATE,
+      JSON.stringify(newList)
+    );
   }
 
   private deleteList({ listId }: { listId: string }): void {
     const lists = this.db.getData();
-    const updatedLists = lists.filter((list) => list.id !== listId);
-    this.db.setData(updatedLists);
-    this.updateLists();
+    let deletedList: List;
+    const updatedLists = lists.filter((list) => {
+      if (list.id === listId) {
+        deletedList = list;
+      }
+      return list.id !== listId;
+    });
+    this.finalCardChangesProcess(
+      updatedLists,
+      ListEvent.DELETE,
+      JSON.stringify(deletedList)
+    );
   }
 
   private renameList({
@@ -51,14 +63,19 @@ class ListHandler extends SocketHandler {
     listName: string;
   }): void {
     const lists = this.db.getData();
+    let renamedList: List;
     const updatedLists = lists.map((list) => {
       if (list.id === listId) {
         list.name = listName;
+        renamedList = list;
       }
       return list;
     });
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      ListEvent.RENAME,
+      JSON.stringify(renamedList)
+    );
   }
 }
 

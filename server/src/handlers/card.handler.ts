@@ -29,17 +29,31 @@ class CardHandler extends SocketHandler {
     const updatedLists = lists.map((list) =>
       list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
     );
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      CardEvent.CREATE,
+      JSON.stringify(newCard)
+    );
   }
 
   private deleteCard({ cardId }: { cardId: string }): void {
     const lists = this.db.getData();
+    let deletedCard: Card;
     const updatedLists = lists.map((listCards) =>
-      listCards.setCards(listCards.cards.filter((card) => card.id !== cardId))
+      listCards.setCards(
+        listCards.cards.filter((card) => {
+          if (card.id === cardId) {
+            deletedCard = card;
+          }
+          return card.id !== cardId;
+        })
+      )
     );
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      CardEvent.DELETE,
+      JSON.stringify(deletedCard)
+    );
   }
 
   private renameCard({
@@ -50,18 +64,23 @@ class CardHandler extends SocketHandler {
     cardName: string;
   }): void {
     const lists = this.db.getData();
+    let renamedCard: Card;
     const updatedLists = lists.map((listCards) => {
       return listCards.setCards(
         listCards.cards.map((card) => {
           if (card.id === cardId) {
             card.name = cardName;
+            renamedCard = card;
           }
           return card;
         })
       );
     });
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      CardEvent.RENAME,
+      JSON.stringify(renamedCard)
+    );
   }
 
   private changeCardDescription({
@@ -72,18 +91,23 @@ class CardHandler extends SocketHandler {
     cardDescription: string;
   }): void {
     const lists = this.db.getData();
+    let redescriptedCard: Card;
     const updatedLists = lists.map((listCards) => {
       return listCards.setCards(
         listCards.cards.map((card) => {
           if (card.id === cardId) {
             card.description = cardDescription;
+            redescriptedCard = card;
           }
           return card;
         })
       );
     });
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      CardEvent.RENAME,
+      JSON.stringify(redescriptedCard)
+    );
   }
 
   private duplicateCard({ cardId }: { cardId: string }): void {
@@ -100,8 +124,11 @@ class CardHandler extends SocketHandler {
     const updatedLists = lists.map((list) =>
       newCard ? list.setCards(list.cards.concat(newCard)) : list
     );
-    this.db.setData(updatedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      updatedLists,
+      CardEvent.DUPLICATE,
+      JSON.stringify(newCard ?? "original id NotFound")
+    );
   }
 
   private reorderCards({

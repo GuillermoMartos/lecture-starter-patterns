@@ -1,8 +1,10 @@
 import { Server, Socket } from "socket.io";
 
-import { ListEvent } from "../common/enums/enums";
+import { CardEventType, ListEvent, ListEventType } from "../common/enums/enums";
 import { Database } from "../data/database";
+import { List } from "../data/models/list";
 import { ReorderService } from "../services/reorder.service";
+import logger from "../services/ChangeObserver";
 
 abstract class SocketHandler {
   protected db: Database;
@@ -21,6 +23,16 @@ abstract class SocketHandler {
 
   protected updateLists(): void {
     this.io.emit(ListEvent.UPDATE, this.db.getData());
+  }
+
+  public finalCardChangesProcess(
+    updatedLists: List[],
+    eventType: CardEventType | ListEventType,
+    message: string
+  ): void {
+    this.db.setData(updatedLists);
+    this.updateLists();
+    logger.notifyObservers(eventType, message);
   }
 }
 
