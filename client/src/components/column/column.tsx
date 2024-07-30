@@ -42,7 +42,9 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={() => {}}
+              onChange={(listName) => {
+                socket.emit(ListEvent.UPDATE, { listId, listName });
+              }}
               fontSize="large"
               width={200}
               isBold
