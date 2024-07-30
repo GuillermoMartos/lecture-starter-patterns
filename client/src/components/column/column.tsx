@@ -3,8 +3,11 @@ import type {
   DraggableStateSnapshot,
 } from "@hello-pangea/dnd";
 import { Draggable } from "@hello-pangea/dnd";
+import { useContext } from "react";
+import { CardEvent } from "../../common/enums/enums";
 
 import { type Card } from "../../common/types/types";
+import { SocketContext } from "../../context/socket";
 import { CardsList } from "../card-list/card-list";
 import { DeleteButton } from "../primitives/delete-button";
 import { Splitter } from "../primitives/styled/splitter";
@@ -21,6 +24,8 @@ type Props = {
 };
 
 export const Column = ({ listId, listName, cards, index }: Props) => {
+  const socket = useContext(SocketContext);
+
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -46,7 +51,11 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <DeleteButton color="#FFF0" onClick={() => {}} />
           </Header>
           <CardsList listId={listId} listType="CARD" cards={cards} />
-          <Footer onCreateCard={() => {}} />
+          <Footer
+            onCreateCard={(cardName) => {
+              socket.emit(CardEvent.CREATE, { listId, cardName });
+            }}
+          />
         </Container>
       )}
     </Draggable>

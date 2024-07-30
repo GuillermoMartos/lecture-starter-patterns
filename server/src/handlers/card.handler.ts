@@ -10,7 +10,13 @@ class CardHandler extends SocketHandler {
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
   }
 
-  public createCard(listId: string, cardName: string): void {
+  public createCard({
+    listId,
+    cardName,
+  }: {
+    listId: string;
+    cardName: string;
+  }): void {
     const newCard = new Card(cardName, "");
     const lists = this.db.getData();
 
