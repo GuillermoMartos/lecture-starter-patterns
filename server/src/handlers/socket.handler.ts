@@ -32,6 +32,7 @@ abstract class SocketHandler {
   ): void {
     this.db.setData(updatedLists);
     this.updateLists();
+    // PATTERN:{OBSERVER}
     logger.notifyObservers(eventType, message);
   }
 }

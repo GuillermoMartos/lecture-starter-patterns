@@ -120,6 +120,7 @@ class CardHandler extends SocketHandler {
         }
       });
     });
+    // PATTERN:{PROTOTYPE}
     const newCard = foundOne ? foundOne.clone() : null;
     const updatedLists = lists.map((list) =>
       newCard ? list.setCards(list.cards.concat(newCard)) : list
