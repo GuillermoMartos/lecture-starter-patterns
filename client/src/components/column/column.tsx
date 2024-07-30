@@ -4,7 +4,7 @@ import type {
 } from "@hello-pangea/dnd";
 import { Draggable } from "@hello-pangea/dnd";
 import { useContext } from "react";
-import { CardEvent } from "../../common/enums/enums";
+import { CardEvent, ListEvent } from "../../common/enums/enums";
 
 import { type Card } from "../../common/types/types";
 import { SocketContext } from "../../context/socket";
@@ -48,7 +48,12 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
               isBold
             />
             <Splitter />
-            <DeleteButton color="#FFF0" onClick={() => {}} />
+            <DeleteButton
+              color="#FFF0"
+              onClick={() => {
+                socket.emit(ListEvent.DELETE, { listId });
+              }}
+            />
           </Header>
           <CardsList listId={listId} listType="CARD" cards={cards} />
           <Footer

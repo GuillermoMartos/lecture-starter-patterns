@@ -32,7 +32,7 @@ class CardHandler extends SocketHandler {
     this.updateLists();
   }
 
-  public deleteCard({ cardId }: { cardId: string }): void {
+  private deleteCard({ cardId }: { cardId: string }): void {
     const lists = this.db.getData();
     const updatedLists = lists.map((listCards) =>
       listCards.setCards(listCards.cards.filter((card) => card.id !== cardId))
@@ -41,7 +41,7 @@ class CardHandler extends SocketHandler {
     this.updateLists();
   }
 
-  public renameCard({
+  private renameCard({
     cardId,
     cardName,
   }: {
@@ -63,7 +63,7 @@ class CardHandler extends SocketHandler {
     this.updateLists();
   }
 
-  public changeCardDescription({
+  private changeCardDescription({
     cardId,
     cardDescription,
   }: {
