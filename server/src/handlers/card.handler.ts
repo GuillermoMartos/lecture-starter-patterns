@@ -2,6 +2,7 @@ import type { Socket } from 'socket.io'
 
 import { CardEvent } from '../common/enums/enums'
 import { Card } from '../data/models/card'
+import { List } from '../data/models/list'
 import { SocketHandler } from './socket.handler'
 
 class CardHandler extends SocketHandler {
@@ -113,10 +114,12 @@ class CardHandler extends SocketHandler {
   private duplicateCard({ cardId }: { cardId: string }): void {
     const lists = this.db.getData()
     let foundOriginalCard: Card | null = null
+    let foundOriginalListId: string = ''
     lists.forEach((listCards) => {
       listCards.cards.forEach((card) => {
         if (card.id === cardId) {
           foundOriginalCard = card
+          foundOriginalListId = listCards.id
         }
       })
     })
@@ -124,9 +127,13 @@ class CardHandler extends SocketHandler {
     const newCard = foundOriginalCard
       ? (foundOriginalCard as Card).clone()
       : null
-    const updatedLists = lists.map((list) =>
-      newCard ? list.setCards(list.cards.concat(newCard)) : list,
-    )
+    const updatedLists = lists.map((list) => {
+      if (list.id === foundOriginalListId) {
+        newCard ? list.setCards(list.cards.concat(newCard)) : list
+      }
+      return list
+    })
+
     this.finalCardChangesProcess(
       updatedLists,
       CardEvent.DUPLICATE,
