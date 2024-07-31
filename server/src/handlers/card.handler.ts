@@ -38,7 +38,7 @@ class CardHandler extends SocketHandler {
 
   private deleteCard({ cardId }: { cardId: string }): void {
     const lists = this.db.getData()
-    let deletedCard: Card
+    let deletedCard: Card | null = null
     const updatedLists = lists.map((listCards) =>
       listCards.setCards(
         listCards.cards.filter((card) => {
@@ -64,7 +64,7 @@ class CardHandler extends SocketHandler {
     cardName: string
   }): void {
     const lists = this.db.getData()
-    let renamedCard: Card
+    let renamedCard: Card | null = null
     const updatedLists = lists.map((listCards) => {
       return listCards.setCards(
         listCards.cards.map((card) => {
@@ -91,7 +91,7 @@ class CardHandler extends SocketHandler {
     cardDescription: string
   }): void {
     const lists = this.db.getData()
-    let redescriptedCard: Card
+    let redescriptedCard: Card | null = null
     const updatedLists = lists.map((listCards) => {
       return listCards.setCards(
         listCards.cards.map((card) => {
@@ -112,16 +112,18 @@ class CardHandler extends SocketHandler {
 
   private duplicateCard({ cardId }: { cardId: string }): void {
     const lists = this.db.getData()
-    let foundOne: Card
+    let foundOriginalCard: Card | null = null
     lists.forEach((listCards) => {
       listCards.cards.forEach((card) => {
         if (card.id === cardId) {
-          foundOne = card
+          foundOriginalCard = card
         }
       })
     })
     // PATTERN:{PROTOTYPE}
-    const newCard = foundOne ? foundOne.clone() : null
+    const newCard = foundOriginalCard
+      ? (foundOriginalCard as Card).clone()
+      : null
     const updatedLists = lists.map((list) =>
       newCard ? list.setCards(list.cards.concat(newCard)) : list,
     )
