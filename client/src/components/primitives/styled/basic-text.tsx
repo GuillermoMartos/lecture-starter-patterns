@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled'
 
 const BasicText = styled.div`
   padding: 0px;
@@ -13,6 +13,6 @@ const BasicText = styled.div`
     outline: 2px solid #998dd9;
     outline-offset: 2px;
   }
-`;
+`
 
-export { BasicText };
+export { BasicText }

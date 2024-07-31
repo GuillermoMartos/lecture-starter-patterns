@@ -1,7 +1,7 @@
-import { colors } from "@atlaskit/theme";
-import styled from "@emotion/styled";
+import { colors } from '@atlaskit/theme'
+import styled from '@emotion/styled'
 
-import { SPACE_IN_PX } from "../../../common/constants/constants";
+import { SPACE_IN_PX } from '../../../common/constants/constants'
 
 const ListWrapper = styled.div`
   background-color: ${colors.N30}
@@ -14,6 +14,6 @@ const ListWrapper = styled.div`
   transition: background-color 0.2s ease, opacity 0.1s ease;
   user-select: none;
   width: 300px;
-`;
+`
 
-export { ListWrapper };
+export { ListWrapper }

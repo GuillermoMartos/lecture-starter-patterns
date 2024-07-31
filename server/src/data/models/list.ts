@@ -1,24 +1,24 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto'
 
-import { Card } from "./card";
+import { Card } from './card'
 
 class List {
-  public id: string;
+  public id: string
 
-  public name: string;
+  public name: string
 
-  public cards: Card[] = [];
+  public cards: Card[] = []
 
   public constructor(name: string) {
-    this.name = name;
-    this.id = randomUUID();
+    this.name = name
+    this.id = randomUUID()
   }
 
   setCards(cards: Card[]) {
-    this.cards = cards;
+    this.cards = cards
 
-    return this;
+    return this
   }
 }
 
-export { List };
+export { List }

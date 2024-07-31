@@ -1,5 +1,5 @@
-import { Card } from "../data/models/card";
-import { List } from "../data/models/list";
+import { Card } from '../data/models/card'
+import { List } from '../data/models/list'
 
 interface IReorderService {
   reorderCards({
@@ -9,26 +9,26 @@ interface IReorderService {
     sourceListId,
     destinationListId,
   }: {
-    lists: List[];
-    sourceIndex: number;
-    destinationIndex: number;
-    sourceListId: string;
-    destinationListId: string;
-  }): List[];
+    lists: List[]
+    sourceIndex: number
+    destinationIndex: number
+    sourceListId: string
+    destinationListId: string
+  }): List[]
 
-  reorder<T>(items: T[], startIndex: number, endIndex: number): T[];
+  reorder<T>(items: T[], startIndex: number, endIndex: number): T[]
 }
 
 // PATTERN:{PROXY}
 class ReorderServiceProxy implements IReorderService {
-  service = new ReorderService();
+  service = new ReorderService()
   public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
     console.log(
       `[reorder PROXY PARAMS]: items: ${JSON.stringify(
-        items
-      )}, startIndex: ${startIndex}, endIndex: ${endIndex}`
-    );
-    return this.service.reorder(items, startIndex, endIndex);
+        items,
+      )}, startIndex: ${startIndex}, endIndex: ${endIndex}`,
+    )
+    return this.service.reorder(items, startIndex, endIndex)
   }
 
   public reorderCards({
@@ -38,34 +38,34 @@ class ReorderServiceProxy implements IReorderService {
     sourceListId,
     destinationListId,
   }: {
-    lists: List[];
-    sourceIndex: number;
-    destinationIndex: number;
-    sourceListId: string;
-    destinationListId: string;
+    lists: List[]
+    sourceIndex: number
+    destinationIndex: number
+    sourceListId: string
+    destinationListId: string
   }): List[] {
     console.log(
       `[reorderCards PROXY PARAMS]: lists: ${JSON.stringify(
-        lists
-      )}, sourceIndex: ${sourceIndex}, destinationIndex: ${destinationIndex}, sourceListId: ${sourceListId}, destinationListId: ${destinationListId}`
-    );
+        lists,
+      )}, sourceIndex: ${sourceIndex}, destinationIndex: ${destinationIndex}, sourceListId: ${sourceListId}, destinationListId: ${destinationListId}`,
+    )
     return this.service.reorderCards({
       lists,
       sourceIndex,
       destinationIndex,
       sourceListId,
       destinationListId,
-    });
+    })
   }
 }
 
 class ReorderService implements IReorderService {
   public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
-    const card = items[startIndex];
-    const listWithRemoved = this.remove(items, startIndex);
-    const result = this.insert(listWithRemoved, endIndex, card);
+    const card = items[startIndex]
+    const listWithRemoved = this.remove(items, startIndex)
+    const result = this.insert(listWithRemoved, endIndex, card)
 
-    return result;
+    return result
   }
 
   public reorderCards({
@@ -75,41 +75,41 @@ class ReorderService implements IReorderService {
     sourceListId,
     destinationListId,
   }: {
-    lists: List[];
-    sourceIndex: number;
-    destinationIndex: number;
-    sourceListId: string;
-    destinationListId: string;
+    lists: List[]
+    sourceIndex: number
+    destinationIndex: number
+    sourceListId: string
+    destinationListId: string
   }): List[] {
     const target: Card = lists.find((list) => list.id === sourceListId)
-      ?.cards?.[sourceIndex];
+      ?.cards?.[sourceIndex]
 
     if (!target) {
-      return lists;
+      return lists
     }
 
     const newLists = lists.map((list) => {
       if (list.id === sourceListId) {
-        list.setCards(this.remove(list.cards, sourceIndex));
+        list.setCards(this.remove(list.cards, sourceIndex))
       }
 
       if (list.id === destinationListId) {
-        list.setCards(this.insert(list.cards, destinationIndex, target));
+        list.setCards(this.insert(list.cards, destinationIndex, target))
       }
 
-      return list;
-    });
+      return list
+    })
 
-    return newLists;
+    return newLists
   }
 
   private remove<T>(items: T[], index: number): T[] {
-    return [...items.slice(0, index), ...items.slice(index + 1)];
+    return [...items.slice(0, index), ...items.slice(index + 1)]
   }
 
   private insert<T>(items: T[], index: number, value: T): T[] {
-    return [...items.slice(0, index), value, ...items.slice(index)];
+    return [...items.slice(0, index), value, ...items.slice(index)]
   }
 }
 
-export { ReorderServiceProxy };
+export { ReorderServiceProxy }

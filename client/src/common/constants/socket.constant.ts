@@ -1,3 +1,3 @@
-const SOCKET_URL = 'http://localhost:3005';
+const SOCKET_URL = 'http://localhost:3005'
 
-export { SOCKET_URL };
+export { SOCKET_URL }

@@ -1,9 +1,9 @@
-import { Card } from './card.type';
+import { Card } from './card.type'
 
 type List = {
-  id: string;
-  name: string;
-  cards: Card[];
-};
+  id: string
+  name: string
+  cards: Card[]
+}
 
-export type { List };
+export type { List }

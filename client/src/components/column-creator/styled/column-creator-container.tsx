@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled'
 
 const ColumnCreatorContainer = styled.div`
   display: flex;
@@ -6,6 +6,6 @@ const ColumnCreatorContainer = styled.div`
   background-color: #ebecf0;
   height: 30px;
   padding: 8px;
-`;
+`
 
-export { ColumnCreatorContainer };
+export { ColumnCreatorContainer }

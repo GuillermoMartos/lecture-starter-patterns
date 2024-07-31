@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled'
 
 const BasicTitle = styled.h3`
   padding: 0px;
@@ -12,6 +12,6 @@ const BasicTitle = styled.h3`
     outline: 2px solid #998dd9;
     outline-offset: 2px;
   }
-`;
+`
 
-export { BasicTitle };
+export { BasicTitle }

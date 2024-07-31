@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { AddButton } from "./add-button";
-import { Input } from "./styled/input";
+import { AddButton } from './add-button'
+import { Input } from './styled/input'
 
 type Props = {
-  onSubmit: (value: string) => void;
-};
+  onSubmit: (value: string) => void
+}
 
 const CreatorInput = ({ onSubmit }: Props) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('')
 
   const onClick = () => {
     if (!name) {
-      return;
+      return
     }
-    setName("");
-    onSubmit(name);
-  };
+    setName('')
+    onSubmit(name)
+  }
 
   return (
     <React.Fragment>
@@ -29,7 +29,7 @@ const CreatorInput = ({ onSubmit }: Props) => {
       />
       <AddButton onClick={onClick} />
     </React.Fragment>
-  );
-};
+  )
+}
 
-export { CreatorInput };
+export { CreatorInput }

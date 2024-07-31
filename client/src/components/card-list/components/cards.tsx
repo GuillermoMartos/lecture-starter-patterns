@@ -1,16 +1,16 @@
 import type {
   DraggableProvided,
   DraggableStateSnapshot,
-} from "@hello-pangea/dnd";
-import { Draggable } from "@hello-pangea/dnd";
-import React from "react";
+} from '@hello-pangea/dnd'
+import { Draggable } from '@hello-pangea/dnd'
+import React from 'react'
 
-import { type Card } from "../../../common/types/types";
-import { CardItem } from "../../card-item/card-item";
+import { type Card } from '../../../common/types/types'
+import { CardItem } from '../../card-item/card-item'
 
 type Props = {
-  cards: Card[];
-};
+  cards: Card[]
+}
 
 const Cards = ({ cards }: Props) => (
   <React.Fragment>
@@ -18,7 +18,7 @@ const Cards = ({ cards }: Props) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>
         {(
           dragProvided: DraggableProvided,
-          dragSnapshot: DraggableStateSnapshot
+          dragSnapshot: DraggableStateSnapshot,
         ) => (
           <CardItem
             key={card.id}
@@ -30,6 +30,6 @@ const Cards = ({ cards }: Props) => (
       </Draggable>
     ))}
   </React.Fragment>
-);
+)
 
-export { Cards };
+export { Cards }

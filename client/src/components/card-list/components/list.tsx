@@ -1,13 +1,13 @@
-import { DroppableProvided } from "@hello-pangea/dnd";
+import { DroppableProvided } from '@hello-pangea/dnd'
 
-import { type Card } from "../../../common/types/types";
-import { DropZone } from "../styled/drop-zone";
-import { Cards } from "./cards";
+import { type Card } from '../../../common/types/types'
+import { DropZone } from '../styled/drop-zone'
+import { Cards } from './cards'
 
 type Props = {
-  dropProvided: DroppableProvided;
-  cards: Card[];
-};
+  dropProvided: DroppableProvided
+  cards: Card[]
+}
 
 const List = ({ cards, dropProvided }: Props) => {
   return (
@@ -17,7 +17,7 @@ const List = ({ cards, dropProvided }: Props) => {
         {dropProvided.placeholder}
       </DropZone>
     </div>
-  );
-};
+  )
+}
 
-export { List };
+export { List }

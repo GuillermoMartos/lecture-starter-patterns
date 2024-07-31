@@ -1,1 +1,1 @@
-export { ReorderServiceProxy as ReorderService } from "./reorder.service";
+export { ReorderServiceProxy as ReorderService } from './reorder.service'

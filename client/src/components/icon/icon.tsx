@@ -1,11 +1,11 @@
-import Add from "../../assets/icons/add.svg?react";
-import Copy from "../../assets/icons/copy.svg?react";
-import Delete from "../../assets/icons/delete.svg?react";
-import { type IconName } from "../../common/types/types";
+import Add from '../../assets/icons/add.svg?react'
+import Copy from '../../assets/icons/copy.svg?react'
+import Delete from '../../assets/icons/delete.svg?react'
+import { type IconName } from '../../common/types/types'
 
 type Props = {
-  iconName: IconName;
-};
+  iconName: IconName
+}
 
 const iconNameToComponent: Record<
   IconName,
@@ -14,12 +14,12 @@ const iconNameToComponent: Record<
   add: Add,
   copy: Copy,
   delete: Delete,
-};
+}
 
 const Icon: React.FC<Props> = ({ iconName }) => {
-  const IconComponent = iconNameToComponent[iconName];
+  const IconComponent = iconNameToComponent[iconName]
 
-  return <IconComponent />;
-};
+  return <IconComponent />
+}
 
-export { Icon };
+export { Icon }
