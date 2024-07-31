@@ -1,6 +1,12 @@
 import type { DraggableLocation } from "@hello-pangea/dnd";
 
 import { type Card, type List } from "../common/types/types";
+import {
+  addCardToList,
+  findListByDraggableLocation,
+  removeCardFromList,
+  reorderSameListCards,
+} from "./helpers/reorder.service";
 
 export const reorderService = {
   reorderLists(items: List[], startIndex: number, endIndex: number): List[] {
@@ -17,49 +23,49 @@ export const reorderService = {
     destination: DraggableLocation
   ): List[] {
     const current: Card[] =
-      lists.find((list) => list.id === source.droppableId)?.cards || [];
+      lists.find(findListByDraggableLocation(source.droppableId))?.cards || [];
     const next: Card[] =
-      lists.find((list) => list.id === destination.droppableId)?.cards || [];
+      lists.find(findListByDraggableLocation(destination.droppableId))?.cards ||
+      [];
     const target: Card = current[source.index];
 
     const isMovingInSameList = source.droppableId === destination.droppableId;
 
     if (isMovingInSameList) {
-      const [removed] = current.splice(source.index, 1);
-      current.splice(destination.index, 0, removed);
-      const reordered: Card[] = current;
-
+      const reordered = reorderSameListCards(
+        current,
+        source.index,
+        destination.index
+      );
       return lists.map((list) =>
         list.id === source.droppableId ? { ...list, cards: reordered } : list
       );
+    } else {
+      const newLists = lists.map((list) => {
+        if (list.id === source.droppableId) {
+          const reorderedCardsAfterRemoval = removeCardFromList(source.index)(
+            current
+          );
+          return {
+            ...list,
+            cards: reorderedCardsAfterRemoval,
+          };
+        }
+
+        if (list.id === destination.droppableId) {
+          const reorderedCardsAfterAddition = addCardToList(destination.index)(
+            target
+          )(next);
+          return {
+            ...list,
+            cards: reorderedCardsAfterAddition,
+          };
+        }
+
+        return list;
+      });
+
+      return newLists;
     }
-
-    const newLists = lists.map((list) => {
-      if (list.id === source.droppableId) {
-        return {
-          ...list,
-          cards: this.removeCardFromList(current, source.index),
-        };
-      }
-
-      if (list.id === destination.droppableId) {
-        return {
-          ...list,
-          cards: this.addCardToList(next, destination.index, target),
-        };
-      }
-
-      return list;
-    });
-
-    return newLists;
-  },
-
-  removeCardFromList(cards: Card[], index: number): Card[] {
-    return cards.slice(0, index).concat(cards.slice(index + 1));
-  },
-
-  addCardToList(cards: Card[], index: number, card: Card): Card[] {
-    return cards.slice(0, index).concat(card).concat(cards.slice(index));
   },
 };
