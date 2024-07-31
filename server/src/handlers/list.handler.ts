@@ -46,7 +46,7 @@ class ListHandler extends SocketHandler {
 
   private deleteList({ listId }: { listId: string }): void {
     const lists = this.db.getData()
-    let deletedList: List
+    let deletedList: List | null = null
     const updatedLists = lists.filter((list) => {
       if (list.id === listId) {
         deletedList = list
@@ -68,7 +68,7 @@ class ListHandler extends SocketHandler {
     listName: string
   }): void {
     const lists = this.db.getData()
-    let renamedList: List
+    let renamedList: List | null = null
     const updatedLists = lists.map((list) => {
       if (list.id === listId) {
         list.name = listName
