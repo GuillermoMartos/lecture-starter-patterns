@@ -4,10 +4,11 @@ import { type Card, type List } from "../common/types/types";
 
 export const reorderService = {
   reorderLists(items: List[], startIndex: number, endIndex: number): List[] {
-    const [removed] = items.splice(startIndex, 1);
-    items.splice(endIndex, 0, removed);
+    const itemsCopy = items.slice();
+    const [removed] = itemsCopy.splice(startIndex, 1);
+    itemsCopy.splice(endIndex, 0, removed);
 
-    return items;
+    return itemsCopy;
   },
 
   reorderCards(
