@@ -29,11 +29,6 @@ export const reorderService = {
       []
     const target = current[source.index]
 
-    if (target === undefined) {
-      //this should never happens. For the deployment compiler needed.
-      throw new Error('Card not found at the source index')
-    }
-
     const isMovingInSameList = source.droppableId === destination.droppableId
 
     if (isMovingInSameList) {
