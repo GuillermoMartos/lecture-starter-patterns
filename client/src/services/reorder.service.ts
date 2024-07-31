@@ -27,7 +27,12 @@ export const reorderService = {
     const next: Card[] =
       lists.find(findListByDraggableLocation(destination.droppableId))?.cards ||
       []
-    const target: Card = current[source.index]
+    const target = current[source.index]
+
+    if (target === undefined) {
+      //this should never happens. For the deployment compiler needed.
+      throw new Error('Card not found at the source index')
+    }
 
     const isMovingInSameList = source.droppableId === destination.droppableId
 
