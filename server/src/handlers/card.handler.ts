@@ -2,7 +2,6 @@ import type { Socket } from 'socket.io'
 
 import { CardEvent } from '../common/enums/enums'
 import { Card } from '../data/models/card'
-import { List } from '../data/models/list'
 import { SocketHandler } from './socket.handler'
 
 class CardHandler extends SocketHandler {

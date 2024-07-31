@@ -1,5 +1,8 @@
 # BSA patterns practices and principles homework starter
 
+For deployed version:
+[Frontend deployed URL](https://lecture-starter-patterns-client-mu.vercel.app/)
+
 ## Info
 
 - This project saves data in memory so you don't need any database
