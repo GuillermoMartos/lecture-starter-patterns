@@ -151,8 +151,11 @@ class CardHandler extends SocketHandler {
       sourceListId,
       destinationListId,
     });
-    this.db.setData(reordered);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      reordered,
+      CardEvent.REORDER,
+      `Reorder card with indexes [SOURCE]:ListID ${sourceListId} INDEX ${sourceIndex} [DESTINATION]:ListID ${destinationListId} INDEX ${destinationIndex}`
+    );
   }
 }
 

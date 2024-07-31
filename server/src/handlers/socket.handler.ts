@@ -3,8 +3,8 @@ import { Server, Socket } from "socket.io";
 import { CardEventType, ListEvent, ListEventType } from "../common/enums/enums";
 import { Database } from "../data/database";
 import { List } from "../data/models/list";
-import { ReorderService } from "../services/reorder.service";
 import logger from "../services/ChangeObserver";
+import { ReorderService } from "../services/services";
 
 abstract class SocketHandler {
   protected db: Database;

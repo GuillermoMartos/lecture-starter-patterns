@@ -24,8 +24,13 @@ class ListHandler extends SocketHandler {
       sourceIndex,
       destinationIndex
     );
-    this.db.setData(reorderedLists);
-    this.updateLists();
+    this.finalCardChangesProcess(
+      reorderedLists,
+      ListEvent.REORDER,
+      `Reorder list with indexes [SOURCE]:${sourceIndex} [DESTINATION]${destinationIndex} [Status Reorder Done]: ${lists.map(
+        (list, index) => `${index}: ${list.name}`
+      )}`
+    );
   }
 
   private createList({ listName }: { listName: string }): void {

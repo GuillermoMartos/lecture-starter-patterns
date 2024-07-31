@@ -1,7 +1,65 @@
 import { Card } from "../data/models/card";
 import { List } from "../data/models/list";
 
-class ReorderService {
+interface IReorderService {
+  reorderCards({
+    lists,
+    sourceIndex,
+    destinationIndex,
+    sourceListId,
+    destinationListId,
+  }: {
+    lists: List[];
+    sourceIndex: number;
+    destinationIndex: number;
+    sourceListId: string;
+    destinationListId: string;
+  }): List[];
+
+  reorder<T>(items: T[], startIndex: number, endIndex: number): T[];
+}
+
+// PATTERN:{PROXY}
+class ReorderServiceProxy implements IReorderService {
+  service = new ReorderService();
+  public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
+    console.log(
+      `[reorder PROXY PARAMS]: items: ${JSON.stringify(
+        items
+      )}, startIndex: ${startIndex}, endIndex: ${endIndex}`
+    );
+    return this.service.reorder(items, startIndex, endIndex);
+  }
+
+  public reorderCards({
+    lists,
+    sourceIndex,
+    destinationIndex,
+    sourceListId,
+    destinationListId,
+  }: {
+    lists: List[];
+    sourceIndex: number;
+    destinationIndex: number;
+    sourceListId: string;
+    destinationListId: string;
+  }): List[] {
+    console.log(
+      `[reorderCards PROXY PARAMS]: lists: ${JSON.stringify(
+        lists
+      )}, sourceIndex: ${sourceIndex}, destinationIndex: ${destinationIndex}, sourceListId: ${sourceListId}, destinationListId: ${destinationListId}`
+    );
+    return this.service.reorderCards({
+      lists,
+      sourceIndex,
+      destinationIndex,
+      sourceListId,
+      destinationListId,
+    });
+  }
+}
+
+class ReorderService implements IReorderService {
   public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
     const card = items[startIndex];
     const listWithRemoved = this.remove(items, startIndex);
@@ -54,4 +112,4 @@ class ReorderService {
   }
 }
 
-export { ReorderService };
+export { ReorderServiceProxy };
