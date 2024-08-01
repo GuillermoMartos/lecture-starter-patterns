@@ -1,6 +1,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { CardEventType, ListEventType } from '../common/enums/enums'
+import {
+  CardEventType,
+  ListEventType,
+  MementoEventType,
+} from '../common/enums/enums'
 
 enum EventType {
   INFO = 'INFO',
@@ -31,7 +35,10 @@ class Subject {
     )
   }
 
-  notifyObservers(action: CardEventType | ListEventType, message: string) {
+  notifyObservers(
+    action: CardEventType | ListEventType | MementoEventType,
+    message: string,
+  ) {
     const templateMessage = `[TIMESTAMP]: ${Date.now()} [ACTION]: ${action} [MESSAGE]: ${message}`
     try {
       this.observers.forEach((observer) =>
@@ -54,20 +61,28 @@ class Subject {
 
 class InfoLogger implements Observer {
   private logFilePath: string
+  private logMementoFilePath: string
   private fileName = 'dataLogged.txt'
+  private mementoFileName = 'mementoLogged.txt'
 
   constructor() {
     const directoryPath = path.join(__dirname, '..', 'data')
     this.logFilePath = path.join(directoryPath, this.fileName)
-    this.initializeOrResetLogFile()
+    this.logMementoFilePath = path.join(directoryPath, this.mementoFileName)
+    this.initializeOrResetLogsFile()
   }
 
-  initializeOrResetLogFile() {
+  initializeOrResetLogsFile() {
     fs.mkdirSync(path.dirname(this.logFilePath), { recursive: true })
+    fs.mkdirSync(path.dirname(this.logMementoFilePath), { recursive: true })
     fs.writeFileSync(this.logFilePath, '')
+    fs.writeFileSync(this.logMementoFilePath, '')
   }
 
   update(event: LoggerData) {
+    if (event.message.includes('memento')) {
+      return fs.appendFileSync(this.logMementoFilePath, event.message + '\n')
+    }
     if (event.type === EventType.INFO) {
       fs.appendFileSync(this.logFilePath, event.message + '\n')
     }

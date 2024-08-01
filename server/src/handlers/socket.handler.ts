@@ -4,6 +4,7 @@ import { CardEventType, ListEvent, ListEventType } from '../common/enums/enums'
 import { Database } from '../data/database'
 import { List } from '../data/models/list'
 import logger from '../services/ChangeObserver'
+import mementoService from '../services/MementoService'
 import { ReorderService } from '../services/services'
 
 abstract class SocketHandler {
@@ -30,6 +31,8 @@ abstract class SocketHandler {
     eventType: CardEventType | ListEventType,
     message: string,
   ): void {
+    // PATERN:{MEMENTO}
+    mementoService.saveState(updatedLists)
     this.db.setData(updatedLists)
     this.updateLists()
     // PATTERN:{OBSERVER}

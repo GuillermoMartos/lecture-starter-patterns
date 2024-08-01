@@ -3,7 +3,7 @@ import { Server, Socket } from 'socket.io'
 
 import { lists } from './assets/mock-data'
 import { Database } from './data/database'
-import { CardHandler, ListHandler } from './handlers/handlers'
+import { CardHandler, ListHandler, MementoHandler } from './handlers/handlers'
 import { ReorderService } from './services/services'
 
 const PORT = 3005
@@ -26,6 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
 const onConnection = (socket: Socket): void => {
   new ListHandler(io, db, reorderService).handleConnection(socket)
   new CardHandler(io, db, reorderService).handleConnection(socket)
+  new MementoHandler(io, db, reorderService).handleConnection(socket)
 }
 
 io.on('connection', onConnection)

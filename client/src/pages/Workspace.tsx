@@ -6,7 +6,7 @@ import type {
 import { DragDropContext, Droppable } from '@hello-pangea/dnd'
 import React, { useContext, useEffect, useState } from 'react'
 
-import { CardEvent, ListEvent } from '../common/enums/enums'
+import { CardEvent, ListEvent, MementoEvent } from '../common/enums/enums'
 import { type List } from '../common/types/types'
 import { Column } from '../components/column/column'
 import { ColumnCreator } from '../components/column-creator/column-creator'
@@ -19,12 +19,27 @@ export const Workspace = () => {
 
   const socket = useContext(SocketContext)
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.metaKey && event.shiftKey && event.key.toLowerCase() === 'z') {
+      socket.emit(MementoEvent.REDO)
+    } else if (event.ctrlKey && event.key.toLowerCase() === 'y') {
+      socket.emit(MementoEvent.REDO)
+    } else if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === 'z'
+    ) {
+      socket.emit(MementoEvent.UNDO)
+    }
+  }
+
   useEffect(() => {
     socket.emit(ListEvent.GET, (lists: List[]) => setLists(lists))
     socket.on(ListEvent.UPDATE, (lists: List[]) => setLists(lists))
+    document.addEventListener('keydown', handleKeyDown)
 
     return () => {
       socket.removeAllListeners(ListEvent.UPDATE).close()
+      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
 
